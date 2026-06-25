@@ -14,3 +14,12 @@
 
 // Define o peso em KG (Usamos 5.0kg)
 const float PESO_ALVO = 5.0f;
+
+// ==========================================
+// PINOS DA ESP 3 (Maleta de Controle)
+// ==========================================
+// Escolhemos pinos livres e seguros comuns no ESP32 para os botões
+#define BTN_ARM_PIN   14
+#define BTN_PURGA_PIN 27
+#define BTN_VENT_PIN  12
+#define BTN_ABORT_PIN 13
