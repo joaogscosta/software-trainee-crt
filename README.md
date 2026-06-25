@@ -2,7 +2,7 @@
 
 Sistema embarcado de telemetria e controle do foguete híbrido da **Capital Rocket Team**, desenvolvido no processo trainee 2026.
 
-**Apogeu alvo:** 1 km | **Propelente:** Parafina + N₂O | **Lançamento previsto:** 05/11/2026, Iacanga-SP
+**Apogeu alvo:** 1 km | **Propelente:** Parafina + N₂O
 
 ---
 
@@ -11,18 +11,20 @@ Sistema embarcado de telemetria e controle do foguete híbrido da **Capital Rock
 O ecossistema eletrônico é composto por **3 ESPs32-WROOM** comunicando-se via **LoRa SX1278 @ 433 MHz**, com redundância física por cabo Serial2 entre ESP2 e ESP3.
 
 ```
-  [ESP1 - Foguete]                          [ESP3 - Central de Controle]
-  Sensores de voo    ────────────────────▶  Exibe telemetria CSV
-  BMP280, MPU6050         LoRa (RF)          Lê botões físicos
-  GPS, Servo         ◀────────────────────  (sem comandos ao foguete)
-                              │
-                         LoRa (RF)
-                       + cabo Serial2
-                              │
-                    [ESP2 - Ground Station]
-                      Célula de carga
-                      Barômetro manifold
-                      Relés das válvulas
+  [ESP1 - Foguete]                           [ESP3 - Central de Controle]
+  Sensores de voo    ──────────────────────▶ Exibe telemetria CSV
+  BMP280, MPU6050         LoRa (RF)           Lê botões físicos
+  GPS, Servo                                  (sem comandos ao foguete)
+                                                        ▲
+                                                        │
+                                                   LoRa (RF)
+                                                 + cabo Serial2
+                                                        │
+                                                        ▼
+                                              [ESP2 - Ground Station]
+                                                Célula de carga
+                                                Barômetro manifold
+                                                Relés das válvulas
 ```
 
 ### Fluxo de Comunicação
@@ -76,8 +78,12 @@ cd software-trainee-crt
 ### 3. Abra seu subsistema
 Na Arduino IDE, use *File → Open* e navegue até a pasta do seu subsistema (ex: `Foguete_ESP1/Foguete_ESP1/Foguete_ESP1.ino`).
 
-### 4. Copie os arquivos compartilhados
-Copie `Shared_Config/config.h` e `Shared_Config/packet_protocol.h` para dentro da pasta do seu `.ino`.
+### 4. Inclua os arquivos compartilhados
+Não copie os arquivos de configuração! Em seu código, inclua-os usando caminhos relativos para garantir a sincronia de todos via Git:
+```cpp
+#include "../../Shared_Config/config.h"
+#include "../../Shared_Config/packet_protocol.h"
+```
 
 ---
 
@@ -89,6 +95,7 @@ Copie `Shared_Config/config.h` e `Shared_Config/packet_protocol.h` para dentro d
 | GPS | `TinyGPSPlus` by Mikal Hart |
 | Barômetro | `Adafruit BMP280 Library` + `Adafruit Unified Sensor` |
 | IMU | `MPU6050` by ElectronicCats |
+| Célula de Carga | `HX711` by Bogdan Necula |
 
 ---
 
